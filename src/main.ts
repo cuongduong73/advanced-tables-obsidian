@@ -290,6 +290,15 @@ export default class TableEditorPlugin extends Plugin {
         key: 'Enter',
         run: (): boolean =>
           this.newPerformTableActionCM6((te: TableEditor) => te.nextRow())(),
+        shift: (): boolean => {
+          // insert line break
+          const editor = this.app.workspace.getActiveViewOfType(MarkdownView).editor
+          const cursor = editor.getCursor();
+          const linebreak = '<br />';
+          editor.replaceRange(linebreak, cursor);
+          editor.setCursor({ line: cursor.line, ch: cursor.ch + linebreak.length});
+          return true;
+        },
         preventDefault: true,
       });
     }
